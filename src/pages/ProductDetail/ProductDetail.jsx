@@ -8,7 +8,7 @@ import ReviewsSection from "../../components/reviewssection/ReviewsSection";
 import RelatedProducts from "../../components/relatedproducts/RelatedProducts";
 import Newsletter from "../../components/newsletter/Newsletter";
 import Footer from "../../components/footer/Footer";
-import "./ProductDetails.css";
+import "./ProductDetail.css";
 
 
 export default function ProductDetails() {
