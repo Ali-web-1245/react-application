@@ -1,5 +1,5 @@
 import React from "react";
-import FilterSidebar from "../FilterSidebar/FilterSidebar";
+import FilterSidebar from "../filtersidebar/FilterSidebar";
 import "./FilterDrawer.css";
 
 export default function FilterDrawer({ isOpen, onClose }) {

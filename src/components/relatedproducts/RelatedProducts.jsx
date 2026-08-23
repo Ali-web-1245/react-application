@@ -1,5 +1,5 @@
 import React from "react";
-import ProductCard from "../ProductCard/ProductCard";
+import ProductCard from "../productcard/ProductCard";
 import "./RelatedProducts.css";
 import img7 from "../../assets/images/img7.png";
 import img8 from "../../assets/images/img8.png";

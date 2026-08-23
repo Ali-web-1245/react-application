@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import FilterSidebar from "../FilterSidebar/FilterSidebar";
-import ShopProducts from "../ShopProducts/ShopProducts";
-import FilterDrawer from "../FilterDrawer/FilterDrawer";
+import FilterSidebar from "../filtersidebar/FilterSidebar";
+import ShopProducts from "../shopproducts/ShopProducts";
+import FilterDrawer from "../filterdrawer/FilterDrawer";
 import "./ShopLayout.css";
 
 export default function ShopLayout() {

@@ -1,9 +1,9 @@
 import React from "react";
-import ProductInfo from "../ProductInfo/ProductInfo";
+import ProductInfo from "../productinfo/ProductInfo";
 import ProductTabs from "../producttabs/ProductTabs";
 import ReviewsSection from "../reviewssection/ReviewsSection";
 import RelatedProducts from "../relatedproducts/RelatedProducts";
-import Newsletter from "../Newsletter/Newsletter";
+import Newsletter from "../newsletter/Newsletter";
 import "./ProductDetails.css";
 
 export default function ProductDetails() {

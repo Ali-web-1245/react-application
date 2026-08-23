@@ -1,6 +1,6 @@
 import React from "react";
-import ProductCard from "../ProductCard/ProductCard";
-import Pagination from "../Pagination/Pagination";
+import ProductCard from "../productcard/ProductCard";
+import Pagination from "../pagination/Pagination";
 import "./ShopProducts.css";
 import sh1 from "../../assets/images/sh1.png"
 import sh2 from "../../assets/images/sh2.png"

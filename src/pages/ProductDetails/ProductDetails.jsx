@@ -1,11 +1,11 @@
 import React from "react";
 import Header from "../../components/header/Header";
 import Navbar from "../../components/navbar/Navbar";
-import ProductGallery from "../../components/productGallery/ProductGallery";
-import ProductInfo from "../../components/productInfo/ProductInfo";
-import ProductTabs from "../../components/productTabs/ProductTabs";
-import ReviewsSection from "../../components/reviewsSection/ReviewsSection";
-import RelatedProducts from "../../components/relatedProducts/RelatedProducts";
+import ProductGallery from "../../components/productgallery/ProductGallery";
+import ProductInfo from "../../components/productinfo/ProductInfo";
+import ProductTabs from "../../components/producttabs/ProductTabs";
+import ReviewsSection from "../../components/reviewssection/ReviewsSection";
+import RelatedProducts from "../../components/relatedproducts/RelatedProducts";
 import Newsletter from "../../components/newsletter/Newsletter";
 import Footer from "../../components/footer/Footer";
 import "./ProductDetails.css";

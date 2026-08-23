@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Header from "../../components/header/Header";
-import Navbar from "../../components/havbar/Navbar";
+import Navbar from "../../components/navbar/Navbar";
 import CheckoutForm from "../../components/checkoutform/CheckoutForm";
 import CheckoutSummary from "../../components/checkoutsummary/CheckoutSummary";
 import Footer from "../../components/footer/Footer";
