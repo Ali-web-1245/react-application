@@ -1,10 +1,10 @@
 import React from "react";
-import Header from "../../components/Header/Header";
-import Navbar from "../../components/Navbar/Navbar";
-import CartItems from "../../components/CartItems/CartItems";
-import OrderSummary from "../../components/OrderSummary/OrderSummary";
-import Newsletter from "../../components/Newsletter/Newsletter";
-import Footer from "../../components/Footer/Footer";
+import Header from "../../components/header/Header";
+import Navbar from "../../components/navbar/Navbar";
+import CartItems from "../../components/cartitems/CartItems";
+import OrderSummary from "../../components/ordersummary/OrderSummary";
+import Newsletter from "../../components/newsletter/Newsletter";
+import Footer from "../../components/footer/Footer";
 import "./Cart.css";
 
 export default function Cart() {

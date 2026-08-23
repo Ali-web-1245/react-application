@@ -1,11 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Header from "../../components/Header/Header";
-import Navbar from "../../components/Navbar/Navbar";
+import Header from "../../components/header/Header";
+import Navbar from "../../components/havbar/Navbar";
 import CheckoutForm from "../../components/checkoutform/CheckoutForm";
 import CheckoutSummary from "../../components/checkoutsummary/CheckoutSummary";
-import Footer from "../../components/Footer/Footer";
+import Footer from "../../components/footer/Footer";
 import "./Checkout.css";
+import Newsletter from "../../components/newsletter/Newsletter";
 
 export default function Checkout() {
   return (
@@ -34,6 +35,7 @@ export default function Checkout() {
           <div className="checkout-right-column">
             <CheckoutSummary />
           </div>
+          <Newsletter/>
         </div>
       </main>
 

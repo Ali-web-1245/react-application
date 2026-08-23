@@ -1,9 +1,9 @@
 import React from "react";
-import Header from "../../components/Header/Header";
-import Navbar from "../../components/Navbar/Navbar";
-import ShopLayout from "../../components/ShopLayout/ShopLayout";
-import Newsletter from "../../components/Newsletter/Newsletter";
-import Footer from "../../components/Footer/Footer";
+import Header from "../../components/header/Header";
+import Navbar from "../../components/navbar/Navbar";
+import ShopLayout from "../../components/shopLayout/ShopLayout";
+import Newsletter from "../../components/newsletter/Newsletter";
+import Footer from "../../components/footer/Footer";
 
 export default function Shop() {
   return (
