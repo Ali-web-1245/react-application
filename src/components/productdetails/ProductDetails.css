@@ -1,0 +1,26 @@
+.product-details-page {
+  width: 100%;
+  background-color: #ffffff;
+}
+
+.product-details-main {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.product-top-section {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+  margin-top: 10px;
+  margin-bottom: 40px;
+}
+
+/* Tablet & Mobile Responsiveness */
+@media (max-width: 1024px) {
+  .product-top-section {
+    flex-direction: column;
+    gap: 24px;
+  }
+}

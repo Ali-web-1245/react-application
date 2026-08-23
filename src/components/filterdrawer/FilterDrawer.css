@@ -1,0 +1,39 @@
+.filter-drawer-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 999;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.filter-drawer-content {
+  width: 100%;
+  max-height: 90vh;
+  background-color: #ffffff;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  overflow-y: auto;
+  box-sizing: border-box;
+  animation: slideUp 0.3s ease-out;
+}
+
+.filter-drawer-content .filter-sidebar {
+  width: 100%;
+  border: none;
+  border-radius: 0;
+  padding: 20px;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}

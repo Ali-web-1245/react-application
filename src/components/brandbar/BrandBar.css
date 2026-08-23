@@ -1,0 +1,76 @@
+.brands-bar {
+  background-color: #000000;
+  width: 100%;
+  padding: 40px 0;
+  overflow: hidden;
+}
+
+.brands-container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 32px;
+}
+
+.brand-logo {
+  color: #ffffff;
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  user-select: none;
+  text-transform: uppercase;
+}
+
+.versace {
+  font-family: 'Times New Roman', Times, serif;
+  letter-spacing: 2px;
+}
+
+.zara {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 900;
+  letter-spacing: -3px;
+}
+
+.gucci {
+  font-family: 'Georgia', serif;
+  letter-spacing: 4px;
+}
+
+.prada {
+  font-family: 'Impact', 'Arial Black', sans-serif;
+  letter-spacing: 1px;
+}
+
+.calvin {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 300;
+  text-transform: none;
+  letter-spacing: 0.5px;
+}
+
+/* Mobile & Tablet Responsive Styles */
+@media (max-width: 1024px) {
+  .brands-bar {
+    padding: 28px 0;
+  }
+
+  .brands-container {
+    justify-content: center;
+    gap: 24px 32px;
+  }
+
+  .brand-logo {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 425px) {
+  .brand-logo {
+    font-size: 20px;
+  }
+}

@@ -1,0 +1,88 @@
+.product-gallery-container {
+  display: flex;
+  gap: 14px;
+  width: 100%;
+  max-width: 610px;
+  box-sizing: border-box;
+}
+
+/* Thumbnails Column */
+.gallery-thumbnails {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.thumbnail-btn {
+  width: 152px;
+  height: 167px;
+  background-color: #f0eeed;
+  border-radius: 20px;
+  border: 1px solid transparent;
+  padding: 12px;
+  cursor: pointer;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+}
+
+.thumbnail-btn.active {
+  border-color: #000000;
+}
+
+.thumbnail-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Main Display Box */
+.gallery-main-image {
+  flex: 1;
+  height: 530px;
+  background-color: #f0eeed;
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.gallery-main-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* Responsive Mobile Layout (Thumbnails below or horizontal) */
+@media (max-width: 768px) {
+  .product-gallery-container {
+    flex-direction: column-reverse;
+    gap: 12px;
+  }
+
+  .gallery-thumbnails {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .thumbnail-btn {
+    width: 31%;
+    height: 106px;
+    border-radius: 12px;
+    padding: 8px;
+  }
+
+  .gallery-main-image {
+    width: 100%;
+    height: 290px;
+    border-radius: 16px;
+    padding: 16px;
+  }
+}
