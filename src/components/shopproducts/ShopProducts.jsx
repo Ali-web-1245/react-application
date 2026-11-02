@@ -1,95 +1,33 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ProductCard from "../productcard/ProductCard";
 import Pagination from "../pagination/Pagination";
 import "./ShopProducts.css";
-import sh1 from "../../assets/images/sh1.png"
-import sh2 from "../../assets/images/sh2.png"
-import sh3 from "../../assets/images/sh3.png"
-import sh4 from "../../assets/images/sh4.png"
-import sh5 from "../../assets/images/sh5.png"
-import sh6 from "../../assets/images/sh6.png"
-import sh7 from "../../assets/images/sh7.png"
-import sh8 from "../../assets/images/sh8.png"
-import sh9 from "../../assets/images/sh9.png"
-const SHOP_PRODUCTS_DATA = [
-  {
-    id: 1,
-    title: "Gradient Graphic T-shirt",
-    price: 145,
-    oldPrice: 242,
-    discount: "-40%",
-    rating: 3.5,
-    image: sh1
-  },
-  {
-    id: 2,
-    title: "Polo with Tipping Details",
-    price: 180,
-    oldPrice: 242,
-    discount: "-20%",
-    rating: 4.5,
-    image: sh2
-  },
-  {
-    id: 3,
-    title: "Black Striped T-shirt",
-    price: 120,
-    oldPrice: 150,
-    discount: "-20%",
-    rating: 5.0,
-    image: sh3
-  },
-  {
-    id: 4,
-    title: "Skinny Fit Jeans",
-    price: 240,
-    oldPrice: 260,
-    discount: "-20%",
-    rating: 3.5,
-    image: sh4
-  },
-  {
-    id: 5,
-    title: "Checkered Shirt",
-    price: 180,
-    rating: 4.5,
-    image: sh5
-  },
-  {
-    id: 6,
-    title: "Sleeve Striped T-shirt",
-    price: 130,
-    oldPrice: 160,
-    discount: "-20%",
-    rating: 4.5,
-    image: sh6
-  },
-  {
-    id: 7,
-    title: "Vertical Striped Shirt",
-    price: 212,
-    oldPrice: 232,
-    discount: "-20%",
-    rating: 5.0,
-    image: sh7
-  },
-  {
-    id: 8,
-    title: "Courage Graphic T-shirt",
-    price: 145,
-    rating: 4.0,
-    image: sh8
-  },
-  {
-    id: 9,
-    title: "Loose Fit Bermuda Shorts",
-    price: 80,
-    rating: 3.0,
-    image: sh9
-  }
-];
+import api, { mapProduct } from "../../services/api";
 
 export default function ShopProducts({ onOpenMobileFilter }) {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let ignore = false;
+    api
+      .get("/products")
+      .then((res) => {
+        if (!ignore) setProducts((res.data.data || []).map(mapProduct));
+      })
+      .catch(() => {
+        if (!ignore) setProducts([]);
+      })
+      .finally(() => {
+        if (!ignore) setLoading(false);
+      });
+    return () => {
+      ignore = true;
+    };
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
+
   return (
     <section className="shop-products-container">
       {/* Header Bar */}
@@ -137,7 +75,7 @@ export default function ShopProducts({ onOpenMobileFilter }) {
 
       {/* Product Grid */}
       <div className="shop-grid">
-        {SHOP_PRODUCTS_DATA.map((product) => (
+        {products.map((product) => (
           <ProductCard key={product.id} {...product} />
         ))}
       </div>

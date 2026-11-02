@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./CartItem.css";
 
 export default function CartItem({
@@ -8,19 +8,20 @@ export default function CartItem({
   size,
   color,
   price,
-  quantity: initialQuantity = 1,
-  onRemove
+  quantity = 1,
+  onRemove,
+  onQuantityChange
 }) {
-  const [quantity, setQuantity] = useState(initialQuantity);
-
   const handleDecrease = () => {
-    if (quantity > 1) {
-      setQuantity(quantity - 1);
+    if (quantity > 1 && onQuantityChange) {
+      onQuantityChange(id, quantity - 1);
     }
   };
 
   const handleIncrease = () => {
-    setQuantity(quantity + 1);
+    if (onQuantityChange) {
+      onQuantityChange(id, quantity + 1);
+    }
   };
 
   return (

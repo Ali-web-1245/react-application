@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import "./ProductInfo.css";
 import { Link } from "react-router-dom";
+import { useCart } from "../../context/CartContext";
+
 const COLORS = [
     { id: "olive", hex: "#4f4837" },
     { id: "teal", hex: "#314f4a" },
@@ -9,10 +11,11 @@ const COLORS = [
 
 const SIZES = ["Small", "Medium", "Large", "X-Large"];
 
-export default function ProductInfo() {
+export default function ProductInfo({ product }) {
     const [selectedColor, setSelectedColor] = useState("olive");
     const [selectedSize, setSelectedSize] = useState("Large");
     const [quantity, setQuantity] = useState(1);
+    const { addToCart } = useCart();
 
     const handleDecrease = () => {
         if (quantity > 1) setQuantity(quantity - 1);
@@ -22,9 +25,21 @@ export default function ProductInfo() {
         setQuantity(quantity + 1);
     };
 
+    const handleAddToCart = () => {
+        addToCart({
+            id: product.id,
+            image: product.image,
+            title: product.title,
+            size: selectedSize,
+            color: selectedColor,
+            price: `$${product.price}`,
+            quantity,
+        });
+    };
+
     return (
         <section className="product-info">
-            <h1 className="product-title">ONE LIFE GRAPHIC T-SHIRT</h1>
+            <h1 className="product-title">{product.title}</h1>
 
             {/* Rating */}
             <div className="rating-container">
@@ -36,20 +51,23 @@ export default function ProductInfo() {
                     <span className="star-half">★</span>
                 </div>
                 <span className="rating-score">
-                    4.5/<span className="max-score">5</span>
+                    {product.rating}/<span className="max-score">5</span>
                 </span>
             </div>
 
             {/* Pricing */}
             <div className="price-container">
-                <span className="current-price">$260</span>
-                <span className="old-price">$300</span>
-                <span className="discount-badge">-40%</span>
+                <span className="current-price">${product.price}</span>
+                {product.oldPrice != null && (
+                    <span className="old-price">${product.oldPrice}</span>
+                )}
+                {product.discount != null && (
+                    <span className="discount-badge">-{product.discount}%</span>
+                )}
             </div>
 
             <p className="product-description">
-                This graphic t-shirt which is perfect for any occasion. Crafted from a soft and
-                breathable fabric, it offers superior comfort and style.
+                {product.description}
             </p>
 
             <hr className="divider" />
@@ -104,7 +122,7 @@ export default function ProductInfo() {
                     </button>
                 </div>
                 <Link to="/cart" className="add-to-cart-link">
-                    <button className="add-to-cart-btn">
+                    <button className="add-to-cart-btn" onClick={handleAddToCart}>
                         Add to Cart
                     </button>
                 </Link>

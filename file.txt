@@ -1,0 +1,96 @@
+Is React (Vite) e-commerce frontend ko backend API se connect karna hai. 
+IMPORTANT: Sirf product DATA ko static arrays se hatakar backend se fetch karna hai. 
+Design, layout, CSS, responsive behavior, colors, spacing — kuch bhi NAHI badalna. 
+UI bilkul pixel-to-pixel same dikhna chahiye, sirf data source change hoga.
+
+Backend live hai: https://backend-e-commerce-uuxn.onrender.com/api
+
+STEP 1 — Setup:
+- Root mein .env file banao: VITE_API_URL=https://backend-e-commerce-uuxn.onrender.com/api
+- axios install karo
+- src/services/api.js banao: axios instance, baseURL = import.meta.env.VITE_API_URL
+
+STEP 2 — Products ko API se fetch karo (sirf data badlo, JSX/styling mat chhedo):
+- ShopProducts.jsx mein jo SHOP_PRODUCTS_DATA hardcoded array hai usay hatao, uski jagah useEffect 
+  ke andar api.get("/products") call karke response ko state mein rakho, phir wahi state render karo 
+  jahan pehle static array render ho raha tha. Component ka JSX/markup/className bilkul same rakho.
+- Same tareeqa TopSelling.jsx, NewArrivals.jsx, RelatedProducts.jsx mein apply karo — in sab mein 
+  jo bhi hardcoded product arrays hain unko API call se replace karo, markup/styling untouched rakho
+- Agar data abhi load ho raha ho to simple "Loading..." text dikhao (extra styling nahi, bas functional)
+
+STEP 3 — Product detail page:
+- App.jsx mein route "/product-details" ko "/product-details/:id" karo (sirf route path, 
+  Layout/Page component wahi rakho)
+- ProductCard.jsx mein jahan se "/product-details" par Link jata hai, wahan product ka id bhi 
+  pass karo URL mein
+- ProductDetail.jsx (jo bhi component hai) mein useParams se id nikal kar api.get(`/products/${id}`) 
+  call karo, response ka data wahi fields mein dikhao jahan pehle static data dikhta tha
+
+STEP 4 — Cart (sirf agar already koi "Add to Cart" button functional nahi hai to hi karo):
+- CartItems.jsx mein jo INITIAL_CART_ITEMS hardcoded hai usay hatao
+- Ek simple CartContext banao (naya file src/context/CartContext.jsx), Add to Cart button click par 
+  item isme add ho, aur localStorage mein save ho
+- Cart.jsx/CartItems.jsx isi context se data len, markup/styling same rakho
+
+STEP 5 — Checkout:
+- Checkout form submit hone par api.post("/orders", {items, customerInfo, ...}) call karo, 
+  success par cart clear karo
+
+Har file mein sirf wahi minimum change karo jo data-fetching ke liye zaroori hai. 
+Koi naya CSS, koi naya design element, koi responsive fix mat karna — sirf data connection.
+Har step ke baad batana kaunsi file mein kya add/change hua.
+
+
+
+
+
+
+
+STEP 6 — Product Details Page Fix Karo (Priority Issue)
+
+Problem: Kisi bhi product (NEW ARRIVALS ya TOP SELLING section mein) par click karne se 
+product details page open nahi ho raha. Is poore flow ko check aur fix karo:
+
+1. ProductCard.jsx (ya jahan bhi product card render hota hai NEW ARRIVALS/TOP SELLING/ShopProducts mein) 
+   mein dekho ke Link/navigate call mein product ka _id (MongoDB se aane wala id) sahi se URL mein 
+   pass ho raha hai ya nahi. Example sahi tareeqa:
+   <Link to={`/product-details/${product._id}`}>
+
+2. App.jsx mein route check karo — "/product-details/:id" (ya jo bhi param naam use kiya hai) 
+   exactly match karna chahiye Link ke URL pattern se.
+
+3. ProductDetail.jsx (ya jo bhi component product details page render karta hai) mein:
+   - useParams() se id nikal rahe ho confirm karo (import { useParams } from "react-router-dom")
+   - useEffect ke andar api.get(`/products/${id}`) call ho rahi hai confirm karo
+   - Response se jo product data aaye wahi fields (title, price, image, description, rating waghera) 
+     render ho rahe hon, placeholder/static data nahi
+   - Agar id undefined ya null ho to console mein warn karo taake debug easy ho
+
+4. Test karo: Home page ke NEW ARRIVALS section mein kisi bhi product (jaise "Checkered Shirt") 
+   par click karke confirm karo ke:
+   - URL change hoke /product-details/<actual-mongodb-id> banta hai
+   - Us product ka sahi data (title, price, image, description) detail page par show hota hai
+   - Koi console error na aaye
+
+5. Yahi check NEW ARRIVALS, TOP SELLING, aur ShopProducts (Shop page) teeno jagah se karo — 
+   sab jagah se click karne par sahi product detail khulna chahiye.
+
+STEP 7 — Product List Ka Count/Order Theek Rakho
+
+Abhi jo dikh raha hai: sirf 4 products NEW ARRIVALS aur TOP SELLING mein dikh rahe hain, aur jab 
+admin dashboard se naya product add hota hai to pehla product hat kar naya niche add hota hai — 
+ye galat hai. Fix karo:
+
+- Backend se GET /products call mein koi limit hardcoded nahi honi chahiye jo purane products ko 
+  hata de. Saare products aane chahiye jo database mein hain (ya agar NEW ARRIVALS/TOP SELLING ke 
+  liye limit chahiye jaise "latest 8" ya "top rated 8", to wo properly backend query se honi chahiye, 
+  frontend array slice se galat tareeqe se nahi)
+- Jab naya product admin se add ho, wo EXISTING products ke saath list mein ADD hona chahiye 
+  (total count badhna chahiye), kisi purane product ki jagah replace nahi hona chahiye
+- Confirm karo ke frontend mein kahin .slice(0, 4) jaisi hardcoded limit to nahi lagi hui jo 
+  hamesha sirf pehle/last 4 hi dikhati ho — agar hai aur sahi se design ke liye zaroori hai, to 
+  confirm karo ke ye naye products ko bhi include karti hai (sirst purane 4 ko fix nahi rakhti)
+
+Fix karne ke baad batana kaunsi file mein kya change hua, aur confirm karna ke upar wale dono 
+test cases (product click se detail khulna, naya product list mein add hona) headless browser se 
+verify kar liye hain.

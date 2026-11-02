@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import Header from "../../components/header/Header";
 import Navbar from "../../components/navbar/Navbar";
 import ProductGallery from "../../components/productgallery/ProductGallery";
@@ -9,9 +10,62 @@ import RelatedProducts from "../../components/relatedproducts/RelatedProducts";
 import Newsletter from "../../components/newsletter/Newsletter";
 import Footer from "../../components/footer/Footer";
 import "./ProductDetail.css";
+import api, { mapProduct } from "../../services/api";
 
 
 export default function ProductDetails() {
+  const { id } = useParams();
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let ignore = false;
+    if (!id) {
+      console.warn("[ProductDetail] No product id in URL params:", window.location.pathname);
+    }
+    setLoading(true);
+    api
+      .get(`/products/${id}`)
+      .then((res) => {
+        if (!ignore) setProduct(mapProduct(res.data.data));
+      })
+      .catch(() => {
+        if (!ignore) setProduct(null);
+      })
+      .finally(() => {
+        if (!ignore) setLoading(false);
+      });
+    return () => {
+      ignore = true;
+    };
+  }, [id]);
+
+  if (loading) {
+    return (
+      <>
+        <Header />
+        <Navbar />
+        <main className="product-details-container">
+          <p>Loading...</p>
+        </main>
+        <Footer />
+      </>
+    );
+  }
+
+  if (!product) {
+    return (
+      <>
+        <Header />
+        <Navbar />
+        <main className="product-details-container">
+          <p>Product not found.</p>
+        </main>
+        <Footer />
+      </>
+    );
+  }
+
   return (
     <>
       <Header />
@@ -26,16 +80,18 @@ export default function ProductDetails() {
           <span className="separator">›</span>
           <span>Men</span>
           <span className="separator">›</span>
-          <span className="current">T-shirts</span>
+          <span className="current">{product.title}</span>
         </nav>
 
         {/* Top Product Section: Gallery + Product Info */}
         <div className="product-main-section">
           <div className="product-gallery-wrapper">
-            <ProductGallery />
+            <ProductGallery
+              images={[product.image, ...product.gallery.filter(Boolean)]}
+            />
           </div>
           <div className="product-info-wrapper">
-            <ProductInfo />
+            <ProductInfo product={product} />
           </div>
         </div>
 

@@ -1,50 +1,11 @@
 import "./NewArrivals.css";
-import Card1 from "../../assets/images/Card1.png";
-import Card2 from "../../assets/images/Card2.png";
-import Card3 from "../../assets/images/Card3.png";
-import Card4 from "../../assets/images/Card4.png";
-
-const products = [
-  {
-    id: 1,
-    name: "T-shirt with Tape Details",
-    category: "T-shirt",
-    price: "$120",
-    oldPrice: "$150",
-    discount: "-20%",
-    image: Card1,
-  },
-  {
-    id: 2,
-    name: "Skinny Fit Jeans",
-    category: "Jeans",
-    price: "$240",
-    oldPrice: "$260",
-    discount: "-8%",
-    image: Card2,
-  },
-  {
-    id: 3,
-    name: "Checkered Shirt",
-    category: "Shirt",
-    price: "$180",
-    oldPrice: "$220",
-    discount: "-18%",
-    image: Card3,
-  },
-  {
-    id: 4,
-    name: "Sleeve Striped T-shirt",
-    category: "T-shirt",
-    price: "$130",
-    oldPrice: "$160",
-    discount: "-19%",
-    image: Card4,
-  },
-];
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import api, { mapProduct } from "../../services/api";
 
 function ProductCard({ product }) {
   return (
+    <Link to={`/product-details/${product.id}`} style={{ textDecoration: "none" }}>
     <div className="product-card">
       <div className="product-image">
         <img src={product.image} alt={product.name} />
@@ -54,7 +15,7 @@ function ProductCard({ product }) {
 
       <div className="rating">
         <span>★★★★★</span>
-        <small>4.5/5</small>
+        <small>{product.rating}</small>
       </div>
 
       <div className="price">
@@ -65,10 +26,45 @@ function ProductCard({ product }) {
         <span className="discount">{product.discount}</span>
       </div>
     </div>
+    </Link>
   );
 }
 
 function NewArrivals() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let ignore = false;
+    api
+      .get("/products")
+      .then((res) => {
+        if (!ignore) {
+          const fetched = (res.data.data || []).map(mapProduct);
+          setProducts(
+            fetched.map((p) => ({
+              ...p,
+              price: `$${p.price}`,
+              oldPrice: p.oldPrice != null ? `$${p.oldPrice}` : null,
+              discount: p.discount != null ? `-${p.discount}%` : null,
+              rating: `${p.rating}/5`,
+            }))
+          );
+        }
+      })
+      .catch(() => {
+        if (!ignore) setProducts([]);
+      })
+      .finally(() => {
+        if (!ignore) setLoading(false);
+      });
+    return () => {
+      ignore = true;
+    };
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
+
   return (
     <section className="new-arrivals">
       <h2>NEW ARRIVALS</h2>

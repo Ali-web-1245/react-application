@@ -2,15 +2,23 @@ import React, { useState } from "react";
 import "./OrderSummary.css";
 
 import { Link } from "react-router-dom";
+import { useCart } from "../../context/CartContext";
 
 export default function OrderSummary({
-    subtotal = "$565",
-    discount = "-$113",
     discountPercentage = "20%",
-    deliveryFee = "$15",
-    total = "$467"
+    deliveryFee = 15
 }) {
+    const { items } = useCart();
     const [promoCode, setPromoCode] = useState("");
+
+    const subtotal = items.reduce(
+        (sum, item) => sum + parseFloat(String(item.price).replace("$", "")) * (item.quantity || 1),
+        0
+    );
+    const discountAmount = Math.round(subtotal * 0.2);
+    const total = subtotal - discountAmount + deliveryFee;
+
+    const format = (n) => `$${n}`;
 
     const handleApplyPromo = (e) => {
         e.preventDefault();
@@ -26,26 +34,26 @@ export default function OrderSummary({
             <div className="summary-details">
                 <div className="summary-row">
                     <span className="summary-label">Subtotal</span>
-                    <span className="summary-value">{subtotal}</span>
+                    <span className="summary-value">{format(subtotal)}</span>
                 </div>
 
                 <div className="summary-row">
                     <span className="summary-label">
                         Discount ({discountPercentage})
                     </span>
-                    <span className="summary-value discount">{discount}</span>
+                    <span className="summary-value discount">-${discountAmount}</span>
                 </div>
 
                 <div className="summary-row">
                     <span className="summary-label">Delivery Fee</span>
-                    <span className="summary-value">{deliveryFee}</span>
+                    <span className="summary-value">{format(deliveryFee)}</span>
                 </div>
 
                 <hr className="summary-divider" />
 
                 <div className="summary-row total-row">
                     <span className="summary-label total-label">Total</span>
-                    <span className="summary-value total-value">{total}</span>
+                    <span className="summary-value total-value">{format(total)}</span>
                 </div>
             </div>
 

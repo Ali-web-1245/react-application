@@ -1,20 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./ProductGallery.css";
 
-import img1 from "../../assets/images/img1.png";
-import img2 from "../../assets/images/img2.png";
-import img3 from "../../assets/images/img3.png";
+export default function ProductGallery({ images = [] }) {
+  const [selectedImage, setSelectedImage] = useState(images[0]);
 
-const IMAGES = [img1, img2, img3];
-
-export default function ProductGallery() {
-  const [selectedImage, setSelectedImage] = useState(IMAGES[0]);
+  useEffect(() => {
+    setSelectedImage(images[0]);
+  }, [images]);
 
   return (
     <div className="product-gallery-container">
       {/* Thumbnails Column */}
       <div className="gallery-thumbnails">
-        {IMAGES.map((img, index) => (
+        {images.map((img, index) => (
           <button
             key={index}
             className={`thumbnail-btn ${

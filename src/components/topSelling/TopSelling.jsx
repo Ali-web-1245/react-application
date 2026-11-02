@@ -1,52 +1,15 @@
 import "./TopSelling.css";
 
-import top1 from "../../assets/images/top1.png";
-import top2 from "../../assets/images/top2.png";
-import top3 from "../../assets/images/top3.png";
-import top4 from "../../assets/images/top4.png";
-
-
-const products = [
-  {
-    id: 1,
-    name: "Vertical Striped Shirt",
-    rating: "4.5/5",
-    price: "$212",
-    oldPrice: "$232",
-    discount: "-9%",
-    image: top1,
-  },
-  {
-    id: 2,
-    name: "Courage Graphic T-shirt",
-    rating: "4.0/5",
-    price: "$145",
-    oldPrice: "$180",
-    discount: "-19%",
-    image: top2,
-  },
-  {
-    id: 3,
-    name: "Loose Fit Bermuda Shorts",
-    rating: "4.5/5",
-    price: "$80",
-    oldPrice: "$100",
-    discount: "-20%",
-    image: top3,
-  },
-  {
-    id: 4,
-    name: "Faded Skinny Jeans",
-    rating: "4.5/5",
-    price: "$210",
-    oldPrice: "$240",
-    discount: "-13%",
-    image: top4,
-  },
-];
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import api, { mapProduct } from "../../services/api";
 
 function ProductCard({ product }) {
   return (
+    <Link
+      to={`/product-details/${product.id}`}
+      style={{ textDecoration: "none" }}
+    >
     <div className="top-card">
       <div className="top-card-image">
         <img src={product.image} alt={product.name} />
@@ -67,10 +30,45 @@ function ProductCard({ product }) {
         <span className="discount">{product.discount}</span>
       </div>
     </div>
+    </Link>
   );
 }
 
 function TopSelling() {
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let ignore = false;
+    api
+      .get("/products")
+      .then((res) => {
+        if (!ignore) {
+          const fetched = (res.data.data || []).map(mapProduct);
+          setProducts(
+            fetched.map((p) => ({
+              ...p,
+              price: `$${p.price}`,
+              oldPrice: p.oldPrice != null ? `$${p.oldPrice}` : null,
+              discount: p.discount != null ? `-${p.discount}%` : null,
+              rating: `${p.rating}/5`,
+            }))
+          );
+        }
+      })
+      .catch(() => {
+        if (!ignore) setProducts([]);
+      })
+      .finally(() => {
+        if (!ignore) setLoading(false);
+      });
+    return () => {
+      ignore = true;
+    };
+  }, []);
+
+  if (loading) return <p>Loading...</p>;
+
   return (
     <section className="top-selling">
       <h2>TOP SELLING</h2>

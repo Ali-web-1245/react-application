@@ -1,12 +1,14 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./ProductCard.css";
 
-export default function ProductCard({ image, title, price, oldPrice, discount, rating }) {
+export default function ProductCard({ id, image, title, price, oldPrice, discount, rating }) {
   // Generate full and half stars based on rating number
   const fullStars = Math.floor(rating);
   const hasHalfStar = rating % 1 !== 0;
 
   return (
+    <Link to={`/product-details/${id}`} className="product-card-link">
     <article className="product-card">
       <div className="product-image-container">
         <img src={image} alt={title} className="product-image" />
@@ -32,5 +34,6 @@ export default function ProductCard({ image, title, price, oldPrice, discount, r
         </div>
       </div>
     </article>
+    </Link>
   );
 }
