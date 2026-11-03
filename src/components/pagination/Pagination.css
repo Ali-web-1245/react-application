@@ -80,11 +80,20 @@
 @media (max-width: 600px) {
   .pagination-container {
     margin-top: 24px;
+    flex-wrap: wrap;
+    justify-content: center;
+    row-gap: 10px;
   }
 
   .pagination-btn {
     padding: 6px 10px;
     font-size: 12px;
+  }
+
+  .page-numbers {
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
   }
 
   .page-num {

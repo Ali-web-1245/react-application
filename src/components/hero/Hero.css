@@ -27,6 +27,7 @@
   flex-direction: column;
   align-items: flex-start;
   z-index: 3;
+  min-width: 0;
 }
 
 .hs-heading {
@@ -113,6 +114,7 @@
   align-items: flex-end;
   justify-content: flex-end;
   overflow: visible;
+  min-width: 0;
 }
 
 .hs-image-wrap {
@@ -220,21 +222,24 @@
 
   .hs-visual {
     min-height: unset;
-    height: 340px;
+    height: auto;
     margin-top: 8px;
     justify-content: center;
   }
 
   .hs-image-wrap {
-    max-width: 280px;
-    height: 100%;
+    max-width: 100%;
+    height: auto;
+    width: 100%;
     margin: 0 auto;
     justify-content: center;
   }
 
   .hs-image {
-    height: 100%;
+    width: 100%;
+    height: auto;
     max-height: 340px;
+    max-width: 340px;
   }
 
   .hs-star-large {
@@ -253,6 +258,10 @@
 
 /* ---------- Tablet ---------- */
 @media (min-width: 768px) and (max-width: 1023px) {
+  .hs-inner {
+    min-height: unset;
+  }
+
   .hs-heading {
     font-size: 38px;
   }
@@ -267,5 +276,26 @@
 
   .hs-stat-label {
     white-space: normal;
+  }
+
+  .hs-visual {
+    min-height: unset;
+    height: auto;
+    align-self: stretch;
+    align-items: flex-end;
+  }
+
+  .hs-image-wrap {
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+  }
+
+  .hs-image {
+    width: 100%;
+    height: auto;
+    max-height: 420px;
+    object-fit: contain;
+    object-position: bottom right;
   }
 }
